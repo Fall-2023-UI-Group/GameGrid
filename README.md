@@ -1,3 +1,13 @@
+##Installing required packages
+
+Navigate into the GameGrid directory and run each of these commands in the terminal individually:
+```
+npm i
+cd backend/
+npm i 
+```
+This will install the front end packages and the second will install the backend packages
+
 ## Starting the front end
 
 In the project directory, you can run:
