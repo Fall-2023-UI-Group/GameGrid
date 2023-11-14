@@ -6,6 +6,8 @@ const cors = require("cors");
 //Connect to db
 const db = require('./db');
 
+const userRouter = require('./routes/user-router');
+
 app.use(express.json());
 app.use(cors());
 app.get("/", (req, resp) => {
@@ -19,5 +21,6 @@ app.get("/", (req, resp) => {
 });
  
 
-app.listen(5000, () => console.log("App listen at port 5000"));
+app.use('/user', userRouter);
 
+app.listen(5000, () => console.log("App listen at port 5000"));

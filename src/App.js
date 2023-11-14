@@ -5,7 +5,7 @@ function App() {
     const handleOnSubmit = async (e) => {
         e.preventDefault();
         let result = await fetch(
-        'http://localhost:5000/user', {
+        'http://localhost:5000/user/createUser', {
             method: "post",
             body: JSON.stringify({ name, email }),
             headers: {
