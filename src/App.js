@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import AuthModal from './AuthModal'; 
 
 function App() {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [games, setGames] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
+    const toggleModal = () => {
+        setShowModal(!showModal);
+    };
 
     useEffect(() => {
         const fetchGames = async () => {
@@ -59,8 +65,8 @@ function App() {
                 <div className="logo">GameGrid</div>
                 <input type="search" placeholder="Search" />
                 <div className="actions">
-                    <button>Sign Up</button>
-                    <button>Cart</button>
+                    <button onClick={toggleModal}>Sign Up</button>
+                    <button onClick={toggleModal}>Cart</button>
                 </div>
             </header>
 
@@ -97,21 +103,23 @@ function App() {
 
 
             <main className="game-grid">
-            {games.map(game => (
-                <div className="game-card" key={game.id}>
-                    <div className="game-cover">
-                    <img src={game.coverUrl} alt={`No Cover Image Provided`} />
-                    {/* <div className="game-title-overlay">{game.name}</div> */}
+                {games.map(game => (
+                    <div className="game-card" key={game.id}>
+                        <div className="game-cover">
+                        <img src={game.coverUrl} alt={`No Cover Image Provided`} />
+                        {/* <div className="game-title-overlay">{game.name}</div> */}
+                        </div>
+                        <div className="game-info">
+                        <h3>{game.name}</h3>
+                        <p>{game.releaseDate}</p>
+                        <p>{game.price}</p>
+                        <p>{game.platform}</p>
+                        </div>
                     </div>
-                    <div className="game-info">
-                    <h3>{game.name}</h3>
-                    <p>{game.releaseDate}</p>
-                    <p>{game.price}</p>
-                    <p>{game.platform}</p>
-                    </div>
-                </div>
-            ))}
-        </main>
+                ))}
+            </main>
+
+            <AuthModal showModal={showModal} setShowModal={setShowModal} />
         </div>
     );
 }

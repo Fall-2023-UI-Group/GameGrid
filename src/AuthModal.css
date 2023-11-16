@@ -1,0 +1,58 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-main {
+    background: #835bf6;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50%; /* Adjust this value to increase or decrease the width of the modal */
+    max-width: 500px; /* Optional: sets a max-width for larger screens */
+}
+
+
+.modal-main form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 15px; /* Adjust padding for input fields */
+    margin-bottom: 10px; /* Add space between each input */
+    border: 1px solid #ccc; /* Optional: adds a border to the input fields */
+    border-radius: 5px;
+    outline: none;
+}
+
+button {
+    padding: 15px 20px; /* Increased padding for buttons */
+    margin-bottom: 10px; /* Add space between buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+    color: #835bf6;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: #7a4fe0;
+    color: white;
+}
+
+button:active {
+    transform: scale(0.98);
+}
