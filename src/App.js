@@ -58,6 +58,17 @@ function App() {
         }
     }
 
+        // Sorting functions
+        const sortGamesAsc = () => {
+            const sortedGames = [...games].sort((a, b) => a.name.localeCompare(b.name));
+            setGames(sortedGames);
+        };
+    
+        const sortGamesDesc = () => {
+            const sortedGames = [...games].sort((a, b) => b.name.localeCompare(a.name));
+            setGames(sortedGames);
+        };
+
     return (
         <div className="app">
             <header className="header">
@@ -74,8 +85,8 @@ function App() {
                 {/* Sorting options */}
                 <div className="sorting-options">
                     <h3>Sort by</h3>
-                    <button className="sort-button">Titles (A-Z)</button>
-                    <button className="sort-button">Titles (Z-A)</button>
+                    <button className="sort-button" onClick={sortGamesAsc}>Titles (A-Z)</button>
+                    <button className="sort-button" onClick={sortGamesDesc}>Titles (Z-A)</button>
                     <button className="sort-button">Price (high to low)</button>
                     <button className="sort-button">Price (low to high)</button>
                 </div>
