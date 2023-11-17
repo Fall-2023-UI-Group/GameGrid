@@ -4,10 +4,14 @@ import AuthModal from './AuthModal';
 
 function App() {
 
-    const [name, setName] = useState("");
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [games, setGames] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [isSignedIn, setIsSignedIn] = useState(false);
+    const [signedInUser, setSignedInUser] = useState(null);
+
 
     const toggleModal = () => {
         setShowModal(!showModal);
@@ -39,22 +43,27 @@ function App() {
         fetchGames();
     }, []);
 
-    const handleOnSubmit = async (e) => {
-        e.preventDefault();
+    const handleCreateUser = async () => {
         let result = await fetch(
         'http://localhost:5000/user/createUser', {
             method: "post",
-            body: JSON.stringify({ name, email }),
+            body: JSON.stringify({ username, email, password }),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
         result = await result.json();
-        console.warn(result);
-        if (result) {
-            alert("Data saved succesfully");
-            setEmail("");
-            setName("");
+        if (result.success) {
+            alert("Account Created Successfully!");
+            toggleModal();
+            setIsSignedIn(true);
+            setSignedInUser({ username });
+            // Optionally, store user details in local storage or context for persistence
+        } else if (result.message === "User already exists"){
+            alert("Username already taken!");
+        } else {
+            alert("Account Creation Failed!");
+            // Handle sign-up failure
         }
     }
 
@@ -69,6 +78,36 @@ function App() {
             setGames(sortedGames);
         };
 
+        const handleUserAction = async ({ username, email, password, isSignUp }) => {
+            setUsername(username);
+            setEmail(email);
+            setPassword(password);
+        
+            if (isSignUp) {
+                handleCreateUser();
+            } else {
+                // Sign-in logic
+                let result = await fetch('http://localhost:5000/user/signIn', {
+                    method: "post",
+                    body: JSON.stringify({ username, password }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                result = await result.json();
+                if (result.success) {
+                    alert("Successful Sign In!");
+                    toggleModal();
+                    setIsSignedIn(true);
+                    setSignedInUser({ username });
+                    // Optionally, store user details in local storage or context for persistence
+                } else {
+                    alert("Sign In Failed!");
+                    // Handle sign-in failure
+                }
+            }
+        };
+
     return (
         <div className="app">
             <header className="header">
@@ -76,8 +115,18 @@ function App() {
                 <div className="logo">GameGrid</div>
                 <input type="search" placeholder="Search" />
                 <div className="actions">
-                    <button onClick={toggleModal}>Sign Up</button>
-                    <button onClick={toggleModal}>Cart</button>
+                    {isSignedIn ? (
+                        <>
+                            <span>Welcome, {signedInUser.username}!</span>
+                            <button>Cart</button>
+                            <button onClick={() => { setIsSignedIn(false); setSignedInUser(null); setEmail(""); setUsername(""); setPassword(""); }}>Sign Out</button>
+                        </>
+                    ) : (
+                        <>
+                            <button onClick={toggleModal}>Sign In</button>
+                            <button>Cart</button>
+                        </>
+                    )}
                 </div>
             </header>
 
@@ -130,7 +179,17 @@ function App() {
                 ))}
             </main>
 
-            <AuthModal showModal={showModal} setShowModal={setShowModal} />
+            <AuthModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                handleUserAction={handleUserAction}
+                username={username}
+                setUsername={setUsername}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+            />
         </div>
     );
 }

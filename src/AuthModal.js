@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import './AuthModal.css';
 
-const AuthModal = ({ showModal, setShowModal }) => {
-    const [isSignUp, setIsSignUp] = useState(true);
+const AuthModal = ({ showModal, setShowModal, handleUserAction, username, setUsername, email, setEmail, password, setPassword }) => {
+    const [isSignUp, setIsSignUp] = useState(false);
 
     const toggleModal = () => {
         setShowModal(false);
     };
 
-    const handleSubmit = (e) => {
+    const handleCreateUser = (e) => {
         e.preventDefault();
-        // Implement sign-up or sign-in logic here
+        handleUserAction({ username, email, password, isSignUp }); // Pass the data to the parent component
     };
 
     if (!showModal) {
@@ -21,10 +21,10 @@ const AuthModal = ({ showModal, setShowModal }) => {
         <div className={showModal ? "modal display-block" : "modal display-none"}>
             <section className="modal-main">
                 <button onClick={toggleModal}>Close</button>
-                <form onSubmit={handleSubmit}>
-                    {isSignUp && <input type="text" placeholder="Name" />}
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
+                <form onSubmit={handleCreateUser}>
+                    <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
+                    {isSignUp && <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />}
+                    <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                     <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
                 </form>
                 <button onClick={() => setIsSignUp(!isSignUp)}>
