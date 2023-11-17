@@ -1,0 +1,154 @@
+.app {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-areas:
+      "header header"
+      "sidebar main";
+  }
+  
+  .header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-image: linear-gradient(to right, #1f1f20, #352c6e);
+    color: #fff;
+  }
+  
+  .headerIcon {
+    width: 45px;
+    height: auto;
+    border-radius: 50%;
+    padding: 5px;
+  }
+  
+  .logo {
+    font-size: 1.5em;
+    color: #835bf6;
+  }
+  
+  .actions button {
+    margin-left: 10px;
+  }
+  
+  .sidebar {
+    grid-area: sidebar;
+    background-color: #835bf6;
+    color: white;
+    padding: 10px;
+    border-radius: 15px;
+  }
+  
+  .sortingOptions h3,
+  .filteringOptions h3 {
+    margin-top: 0;
+    padding-top: 10px;
+  }
+  
+  .sortButton,
+  .sidebar a {
+    display: block;
+    background: none;
+    border: none;
+    color: white;
+    padding: 8px;
+    margin: 5px 0;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .sortButton:hover,
+  .sidebar a:hover {
+    background-color: #9466ff;
+  }
+  
+  .sortButton:focus,
+  .sidebar a:focus {
+    outline: none;
+  }
+  
+  .gameGrid {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .gameCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #2a2a2a;
+    min-height: 300px;
+  }
+  
+  .gameCard:hover {
+    background-color: #3c3c3c;
+  }
+  
+  .gameCover {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 0;
+  }
+  
+  .gameCover img {
+    width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+  
+  .gameTitleOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .gameInfo {
+    padding: 10px;
+  }
+  
+  .gameInfo h3 {
+    font-size: 1em;
+    margin: 0.5em 0 0.2em 0;
+  }
+  
+  .gameInfo p {
+    margin: 0.2em 0;
+    font-size: 0.9em;
+  }
+  
+  input[type="search"] {
+    font-size: 1rem;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-image: linear-gradient(to bottom, #1f1f21, #352c6e);
+    background-size: cover;
+    min-height: 100vh;
+  }
+  

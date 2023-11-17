@@ -1,3 +1,5 @@
+/* AuthModal.module.css */
+
 .modal {
     position: fixed;
     top: 0;
@@ -10,7 +12,7 @@
     justify-content: center;
 }
 
-.modal-main {
+.modalMain {
     background: #835bf6;
     padding: 20px;
     border-radius: 10px;
@@ -19,8 +21,7 @@
     max-width: 500px; /* Optional: sets a max-width for larger screens */
 }
 
-
-.modal-main form {
+.modalMain form {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -30,13 +31,13 @@ input[type="text"],
 input[type="email"],
 input[type="password"] {
     padding: 15px; /* Adjust padding for input fields */
-    margin-bottom: 10px; /* Add space between each input */
+    margin: 10px; /* Add space between each input */
     border: 1px solid #ccc; /* Optional: adds a border to the input fields */
     border-radius: 5px;
     outline: none;
 }
 
-button {
+.modalMain button {
     padding: 15px 20px; /* Increased padding for buttons */
     margin-bottom: 10px; /* Add space between buttons */
     border: none;

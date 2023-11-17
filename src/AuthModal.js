@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AuthModal.css';
+import styles from './AuthModal.module.css'; // Import the styles as a module
 
 const AuthModal = ({ showModal, setShowModal, handleUserAction, username, setUsername, email, setEmail, password, setPassword }) => {
     const [isSignUp, setIsSignUp] = useState(false);
@@ -18,8 +18,8 @@ const AuthModal = ({ showModal, setShowModal, handleUserAction, username, setUse
     }
 
     return (
-        <div className={showModal ? "modal display-block" : "modal display-none"}>
-            <section className="modal-main">
+        <div className={showModal ? `${styles.modal} ${styles.displayBlock}` : `${styles.modal} ${styles.displayNone}`}>
+            <section className={styles.modalMain}>
                 <button onClick={toggleModal}>Close</button>
                 <form onSubmit={handleCreateUser}>
                     <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
