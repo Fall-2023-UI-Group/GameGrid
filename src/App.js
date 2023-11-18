@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import AuthModal from './AuthModal'; 
 import CartModal from './CartModal';
+import GameDetailsModal from './GameDetailsModal';
+import controllerImage from './purple-controller.jpg';
 
 function App() {
 
@@ -12,15 +14,35 @@ function App() {
     const [showModal, setShowModal] = useState(false);
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [signedInUser, setSignedInUser] = useState(null);
+    const [selectedGame, setSelectedGame] = useState(null);
+    const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
+    // Update search query state
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
 
-    // isCartOpen is the state, setIsCartOpen() function to update state, intial state set to false
-    const [showCartModal, setShowCartModal] = useState(false);
-    const [cartItems, setCartItems] = useState([]);
-    
+    // Filtered games based on search query
+    const filteredGames = games.filter(game => 
+        game.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Function to handle game card click
+    const openGameDetails = (game) => {
+        setSelectedGame(game);
+    };
+
+    // Function to close the game details modal
+    const closeGameDetails = () => {
+        setSelectedGame(null);
+    };
+
     const toggleModal = () => {
         setShowModal(!showModal);
     };
+    // isCartOpen is the state, setIsCartOpen() function to update state, intial state set to false
+    const [showCartModal, setShowCartModal] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
 
 
 
@@ -122,44 +144,44 @@ function App() {
                 }
             }
         };
-
-    const addToCart = (game) => {
-        // Need to see if the game is already in cart,
-        // console.log(game)
-        const existingCartItem = cartItems.find((item) => item.id === game.id);
-
-        
-        //if so, update the quantity
-        if (existingCartItem){
-            setCartItems(
-                cartItems.map((item) =>
-                  item.id === game.id ? {...item, quantity:item.quantity + 1} :item
-                )
-            );
-
-        }else{
-        //if not, add it with quantity 1
-            setCartItems([...cartItems, { ...game, quantity:1}]);
-
-        }
-        
-    };
-
-
-
+        const addToCart = (game) => {
+            // Need to see if the game is already in cart,
+            // console.log(game)
+            const existingCartItem = cartItems.find((item) => item.id === game.id);
+    
+            
+            //if so, update the quantity
+            if (existingCartItem){
+                setCartItems(
+                    cartItems.map((item) =>
+                      item.id === game.id ? {...item, quantity:item.quantity + 1} :item
+                    )
+                );
+    
+            }else{
+            //if not, add it with quantity 1
+                setCartItems([...cartItems, { ...game, quantity:1}]);
+    
+            }
+            
+        };
     return (
-        <div className="app">
-            <header className="header">
-            <img src="/purple-controller.jpg" alt="icon" className="header-icon"/>
-                <div className="logo">GameGrid</div>
-                <input type="search" placeholder="Search" />
-                <div className="actions">
+        <div className={styles.app}>
+        <header className={styles.header}>
+            <img src={controllerImage} alt="icon" className={styles.headerIcon}/>
+            <div className={styles.logo}>GameGrid</div>
+            <input 
+                type="search" 
+                placeholder="Search" 
+                value={searchQuery}
+                onChange={handleSearchChange} 
+            />
+            <div className={styles.actions}>
                     {isSignedIn ? (
                         <>
                             <span>Welcome, {signedInUser.username}!</span>
                             <button>Cart</button>
                             <button onClick={() => { setIsSignedIn(false); setSignedInUser(null); setEmail(""); setUsername(""); setPassword(""); }}>Sign Out</button>
-                            
                             {/* Add the cart open button here */}
                             <button onClick={toggleCartModal}>Open Cart</button>
                             {showCartModal && <CartModal showCartModal={showCartModal} setShowCartModal={setShowCartModal} cartItems={cartItems}/>}
@@ -173,23 +195,21 @@ function App() {
                             <button onClick={toggleCartModal}>Open Cart</button>
                             {showCartModal && <CartModal showCartModal={showCartModal} setShowCartModal={setShowCartModal} cartItems={cartItems}/>}
                         </>
-
                     )}
                 </div>
             </header>
 
-            <aside className="sidebar">
-                {/* Sorting options */}
-                <div className="sorting-options">
-                    <h3>Sort by</h3>
-                    <button className="sort-button" onClick={sortGamesAsc}>Titles (A-Z)</button>
-                    <button className="sort-button" onClick={sortGamesDesc}>Titles (Z-A)</button>
-                    <button className="sort-button">Price (high to low)</button>
-                    <button className="sort-button">Price (low to high)</button>
-                </div>
+            <aside className={styles.sidebar}>
+                    <div className={styles.sortingOptions}>
+                        <h3>Sort by</h3>
+                        <button className={styles.sortButton} onClick={sortGamesAsc}>Titles (A-Z)</button>
+                        <button className={styles.sortButton} onClick={sortGamesDesc}>Titles (Z-A)</button>
+                        <button className={styles.sortButton}>Price (high to low)</button>
+                        <button className={styles.sortButton}>Price (low to high)</button>
+                    </div>
 
                 {/* Filtering options */}
-                <div className="filtering-options">
+                <div className={styles.filteringOptions}>
                     <h3>Platform</h3>
                     <a href="#playstation">PlayStation</a>
                     <a href="#xbox">Xbox</a>
@@ -210,29 +230,33 @@ function App() {
             </aside>
 
 
-            <main className="game-grid">
-                {games.map(game => (
-                    <div className="game-card" key={game.id}>
-                        <div className="game-cover">
-                        <img src={game.coverUrl} alt={`No Cover Image Provided`} />
-                        {/* <div className="game-title-overlay">{game.name}</div> */}
-                        </div>
-                        <div className="game-info">
-                        <h3>{game.name}</h3>
-                        <p>{game.releaseDate}</p>
-                        <p>{game.price}</p>
-                        <p>{game.platform}</p>
-                        <button onClick={() => addToCart(game)}>Add to Cart</button> {/* Add the button here */}
+            <main className={styles.gameGrid}>
+                    {filteredGames.map(game => (
+                        <div className={styles.gameCard} key={game.id} onClick={() => openGameDetails(game)}>
+                            <div className={styles.gameCover}>
+                                <img src={game.coverUrl} alt={`No Cover Provided`} />
+                            </div>
+                            <div className={styles.gameInfo}>
+                                <h3>{game.name}</h3>
+                                <p>{game.releaseDate}</p>
+                                <p>{game.price}</p>
+                                <p>{game.platform}</p>
+                                <button onClick={() => addToCart(game)}>Add to Cart</button> {/* Add the button here */}
                         </div>
                     </div>
                 ))}
             </main>
-            
+
+                        
             {/* Pass cartItems and toggleCartModal function as props to CartModal */}
 
             <CartModal cartItems={cartItems} showCartModal={showCartModal} setShowCartModal={toggleCartModal} addToCart={addToCart}/>
             
             
+            <GameDetailsModal 
+                    game={selectedGame} 
+                    onClose={closeGameDetails} 
+                />
             <AuthModal
                 showModal={showModal}
                 setShowModal={setShowModal}
