@@ -188,7 +188,11 @@ function App() {
                 </aside>
         
                 <main className={styles.gameGrid}>
-                    {games.map(game => (
+                    {games
+			.filter((game) =>
+				game.name.toLowerCase().includes(searchTerm.toLowerCase())
+			)
+			.map(game => (
                         <div className={styles.gameCard} key={game.id} onClick={() => openGameDetails(game)}>
                             <div className={styles.gameCover}>
                                 <img src={game.coverUrl} alt={`No Cover Provided`} />
