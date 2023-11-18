@@ -122,6 +122,17 @@ function App() {
             setGames(sortedGames);
         };
 
+        const sortGamesByPriceAsc = () => {
+            const sortedGames = [...games].sort((a, b) => a.price - b.price);
+            setGames(sortedGames);
+        };
+        
+        const sortGamesByPriceDesc = () => {
+            const sortedGames = [...games].sort((a, b) => b.price - a.price);
+            setGames(sortedGames);
+        };
+        
+
         const handleUserAction = async ({ username, email, password, isSignUp }) => {
             setUsername(username);
             setEmail(email);
@@ -215,34 +226,32 @@ function App() {
                         <h3>Sort by</h3>
                         <button className={styles.sortButton} onClick={sortGamesAsc}>Titles (A-Z)</button>
                         <button className={styles.sortButton} onClick={sortGamesDesc}>Titles (Z-A)</button>
-                        <button className={styles.sortButton}>Price (high to low)</button>
-                        <button className={styles.sortButton}>Price (low to high)</button>
+                        <button className={styles.sortButton} onClick={sortGamesByPriceDesc}>Price (high to low)</button>
+                        <button className={styles.sortButton} onClick={sortGamesByPriceAsc}>Price (low to high)</button>
                     </div>
-
-                {/* Filtering options */}
-                <div className={styles.filteringOptions}>
-                    <h3>Platform</h3>
-                    <a href="#playstation">PlayStation</a>
-                    <a href="#xbox">Xbox</a>
-                    <a href="#pc">PC</a>
-                    <a href="#nintendo">Nintendo</a>
-
-                    <h3>Genre</h3>
-                    <a href="#action">Action</a>
-                    <a href="#adventure">Adventure</a>
-                    <a href="#rpg">RPG</a>
-                    <a href="#simulation">Simulation</a>
-
-                    <h3>ESRB Rating</h3>
-                    <a href="#everyone">Everyone</a>
-                    <a href="#teen">Teen</a>
-                    <a href="#mature">Mature</a>
-                </div>
-            </aside>
-
-
-            <main className={styles.gameGrid}>
-                    {filteredGames.map(game => (
+        
+                    <div className={styles.filteringOptions}>
+                        <h3>Platform</h3>
+                        <a href="#playstation">PlayStation</a>
+                        <a href="#xbox">Xbox</a>
+                        <a href="#pc">PC</a>
+                        <a href="#nintendo">Nintendo</a>
+        
+                        <h3>Genre</h3>
+                        <a href="#action">Action</a>
+                        <a href="#adventure">Adventure</a>
+                        <a href="#rpg">RPG</a>
+                        <a href="#simulation">Simulation</a>
+        
+                        <h3>ESRB Rating</h3>
+                        <a href="#everyone">Everyone</a>
+                        <a href="#teen">Teen</a>
+                        <a href="#mature">Mature</a>
+                    </div>
+                </aside>
+        
+                <main className={styles.gameGrid}>
+                    {filteredGames.map((game) => (
                         <div className={styles.gameCard} key={game.id} onClick={() => openGameDetails(game)}>
                             <div className={styles.gameCover}>
                                 <img src={game.coverUrl} alt={`No Cover Provided`} />
@@ -252,19 +261,13 @@ function App() {
                                 <p>{game.releaseDate}</p>
                                 <p>{game.price}</p>
                                 <p>{game.platform}</p>
-                                <button onClick={() => addToCart(game)}>Add to Cart</button> {/* Add the button here */}
+                                <button onClick={() => addToCart(game)}>Add to Cart</button>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </main>
-
-                        
-            {/* Pass cartItems and toggleCartModal function as props to CartModal */}
-
-            <CartModal cartItems={cartItems} showCartModal={showCartModal} setShowCartModal={toggleCartModal} addToCart={addToCart} removeFromCart={removeFromCart} toggleCheckoutModal={toggleCheckoutModal}/>
-            
-            
-            <GameDetailsModal 
+                    ))}
+                </main>
+                <CartModal cartItems={cartItems} showCartModal={showCartModal} setShowCartModal={toggleCartModal} addToCart={addToCart} removeFromCart={removeFromCart} toggleCheckoutModal={toggleCheckoutModal}/>   
+                <GameDetailsModal 
                     game={selectedGame} 
                     onClose={closeGameDetails} 
                 />

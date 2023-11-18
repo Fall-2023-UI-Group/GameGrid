@@ -14,9 +14,9 @@ const GameDetailsModal = ({ game, onClose }) => {
                     </div>
                     <div className={styles.modaldetails}>
                         <h3>{game.name}</h3>
-                        <p>Release Date: {game.releaseDate}</p>
+                        {game.releaseDate? <p>Release Date: {game.releaseDate}</p> : null}
                         <p>Price: {game.price}</p>
-                        <p>Platform: {game.platform}</p>
+                        {game.platform? <p>Platform: {game.platform}</p> : null}
                         {/* Other details */}
                     </div>
                 </div>
