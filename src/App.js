@@ -14,7 +14,17 @@ function App() {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [signedInUser, setSignedInUser] = useState(null);
     const [selectedGame, setSelectedGame] = useState(null);
+    const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
+    // Update search query state
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    // Filtered games based on search query
+    const filteredGames = games.filter(game => 
+        game.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     // Function to handle game card click
     const openGameDetails = (game) => {
@@ -126,7 +136,12 @@ function App() {
                 <header className={styles.header}>
                     <img src={controllerImage} alt="icon" className={styles.headerIcon}/>
                     <div className={styles.logo}>GameGrid</div>
-                    <input type="search" placeholder="Search" />
+                    <input 
+                        type="search" 
+                        placeholder="Search" 
+                        value={searchQuery}
+                        onChange={handleSearchChange} 
+                    />
                     <div className={styles.actions}>
                         {isSignedIn ? (
                             <>
@@ -173,11 +188,7 @@ function App() {
                 </aside>
         
                 <main className={styles.gameGrid}>
-                    {games
-                        .filter((game) =>
-                            game.name.toLowerCase().includes(searchTerm.toLowerCase())
-                            )
-                        .map(game => (
+                    {games.map(game => (
                         <div className={styles.gameCard} key={game.id} onClick={() => openGameDetails(game)}>
                             <div className={styles.gameCover}>
                                 <img src={game.coverUrl} alt={`No Cover Provided`} />
