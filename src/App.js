@@ -188,24 +188,22 @@ function App() {
                 </aside>
         
                 <main className={styles.gameGrid}>
-                    {games
-			.filter((game) =>
-				game.name.toLowerCase().includes(searchTerm.toLowerCase())
-			)
-			.map(game => (
-                        <div className={styles.gameCard} key={game.id} onClick={() => openGameDetails(game)}>
-                            <div className={styles.gameCover}>
-                                <img src={game.coverUrl} alt={`No Cover Provided`} />
-                            </div>
-                            <div className={styles.gameInfo}>
-                                <h3>{game.name}</h3>
-                                <p>{game.releaseDate}</p>
-                                <p>{game.price}</p>
-                                <p>{game.platform}</p>
-                            </div>
-                        </div>
-                    ))}
-                </main>
+			{filteredGames.map((game) => (
+    				<div className={styles.gameCard} key={game.id} onClick={() => openGameDetails(game)}>
+        				<div className={styles.gameCover}>
+            					<img src={game.coverUrl} alt={`No Cover Provided`} />
+        				</div>
+        				<div className={styles.gameInfo}>
+            					<h3>{game.name}</h3>
+            					<p>{game.releaseDate}</p>
+            					<p>{game.price}</p>
+            					<p>{game.platform}</p>
+        				</div>
+    				</div>
+			))}
+
+
+		</main>
         
                 <GameDetailsModal 
                     game={selectedGame} 
