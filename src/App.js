@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import AuthModal from './AuthModal'; 
+import CartModal from './CartModal';
 
 function App() {
 
@@ -13,9 +14,23 @@ function App() {
     const [signedInUser, setSignedInUser] = useState(null);
 
 
+    // isCartOpen is the state, setIsCartOpen() function to update state, intial state set to false
+    const [showCartModal, setShowCartModal] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
+    
     const toggleModal = () => {
         setShowModal(!showModal);
     };
+
+
+
+    // called to toggle the value of the state
+    const toggleCartModal = () => {
+        setShowCartModal(!showCartModal);
+      };
+
+
+
 
     useEffect(() => {
         const fetchGames = async () => {
@@ -108,6 +123,30 @@ function App() {
             }
         };
 
+    const addToCart = (game) => {
+        // Need to see if the game is already in cart,
+        // console.log(game)
+        const existingCartItem = cartItems.find((item) => item.id === game.id);
+
+        
+        //if so, update the quantity
+        if (existingCartItem){
+            setCartItems(
+                cartItems.map((item) =>
+                  item.id === game.id ? {...item, quantity:item.quantity + 1} :item
+                )
+            );
+
+        }else{
+        //if not, add it with quantity 1
+            setCartItems([...cartItems, { ...game, quantity:1}]);
+
+        }
+        
+    };
+
+
+
     return (
         <div className="app">
             <header className="header">
@@ -120,12 +159,21 @@ function App() {
                             <span>Welcome, {signedInUser.username}!</span>
                             <button>Cart</button>
                             <button onClick={() => { setIsSignedIn(false); setSignedInUser(null); setEmail(""); setUsername(""); setPassword(""); }}>Sign Out</button>
+                            
+                            {/* Add the cart open button here */}
+                            <button onClick={toggleCartModal}>Open Cart</button>
+                            {showCartModal && <CartModal showCartModal={showCartModal} setShowCartModal={setShowCartModal} cartItems={cartItems}/>}
+                        
                         </>
                     ) : (
                         <>
                             <button onClick={toggleModal}>Sign In</button>
                             <button>Cart</button>
+                            {/* Add the cart open button here */}
+                            <button onClick={toggleCartModal}>Open Cart</button>
+                            {showCartModal && <CartModal showCartModal={showCartModal} setShowCartModal={setShowCartModal} cartItems={cartItems}/>}
                         </>
+
                     )}
                 </div>
             </header>
@@ -174,11 +222,17 @@ function App() {
                         <p>{game.releaseDate}</p>
                         <p>{game.price}</p>
                         <p>{game.platform}</p>
+                        <button onClick={() => addToCart(game)}>Add to Cart</button> {/* Add the button here */}
                         </div>
                     </div>
                 ))}
             </main>
+            
+            {/* Pass cartItems and toggleCartModal function as props to CartModal */}
 
+            <CartModal cartItems={cartItems} showCartModal={showCartModal} setShowCartModal={toggleCartModal} addToCart={addToCart}/>
+            
+            
             <AuthModal
                 showModal={showModal}
                 setShowModal={setShowModal}
