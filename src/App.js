@@ -101,6 +101,17 @@ function App() {
             setGames(sortedGames);
         };
 
+        const sortGamesByPriceAsc = () => {
+            const sortedGames = [...games].sort((a, b) => a.price - b.price);
+            setGames(sortedGames);
+        };
+        
+        const sortGamesByPriceDesc = () => {
+            const sortedGames = [...games].sort((a, b) => b.price - a.price);
+            setGames(sortedGames);
+        };
+        
+
         const handleUserAction = async ({ username, email, password, isSignUp }) => {
             setUsername(username);
             setEmail(email);
@@ -163,8 +174,8 @@ function App() {
                         <h3>Sort by</h3>
                         <button className={styles.sortButton} onClick={sortGamesAsc}>Titles (A-Z)</button>
                         <button className={styles.sortButton} onClick={sortGamesDesc}>Titles (Z-A)</button>
-                        <button className={styles.sortButton}>Price (high to low)</button>
-                        <button className={styles.sortButton}>Price (low to high)</button>
+                        <button className={styles.sortButton} onClick={sortGamesByPriceDesc}>Price (high to low)</button>
+                        <button className={styles.sortButton} onClick={sortGamesByPriceAsc}>Price (low to high)</button>
                     </div>
         
                     <div className={styles.filteringOptions}>
