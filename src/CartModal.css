@@ -1,4 +1,6 @@
-.modal {
+/* CartModalStyles.css */
+
+.cart-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -8,40 +10,73 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1000; /* Ensure it's on top of other elements */
 }
 
-.modal-main {
-    background: #835bf6;
+.cart-modal-content {
+    background: #2a2a2a; /* Dark background similar to game cards */
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 50%; /* Adjust this value to increase or decrease the width of the modal */
-    max-width: 500px; /* Optional: sets a max-width for larger screens */
-}
-
-
-.modal-main form {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 60%; /* Adjust this value as needed */
+    max-width: 700px; /* Set a max-width for larger screens */
+    color: white; /* White text for contrast */
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
 }
-button {
-    padding: 15px 20px; /* Increased padding for buttons */
-    margin-bottom: 10px; /* Add space between buttons */
+.modaldetails {
+    flex: 2;
+    padding-left: 20px; /* Space between image and details */
+}
+.modalcontent img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.modalcontent h3 {
+    margin: 10px 0;
+    color: #835bf6; /* Purple text for headings */
+}
+
+.modalcontent p {
+    margin: 5px 0;
+}
+
+.modalheader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.modalimage {
+    flex: 1;
+    max-width: 50%;
+}
+
+.modalimage img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+.cart-modal-content button {
+    padding: 10px 20px;
+    margin: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: white;
-    color: #835bf6;
+    background-color: #835bf6; /* Purple background for buttons */
+    color: white;
     font-weight: bold;
     transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover {
-    background-color: #7a4fe0;
-    color: white;
+.cart-modal-content button:hover {
+    background-color: #9466ff; /* Lighter purple for hover effect */
 }
 
-button:active {
+.cart-modal-content button:active {
     transform: scale(0.98);
 }

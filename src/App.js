@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import styles from './App.module.css';
 import AuthModal from './AuthModal'; 
 import CartModal from './CartModal';
+import CheckoutModal from './CheckoutModal';
 import GameDetailsModal from './GameDetailsModal';
 import controllerImage from './purple-controller.jpg';
 
@@ -16,6 +17,7 @@ function App() {
     const [signedInUser, setSignedInUser] = useState(null);
     const [selectedGame, setSelectedGame] = useState(null);
     const [searchQuery, setSearchQuery] = useState(""); // State for search query
+    const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
     // Update search query state
     const handleSearchChange = (event) => {
@@ -40,6 +42,11 @@ function App() {
     const toggleModal = () => {
         setShowModal(!showModal);
     };
+    
+    const toggleCheckoutModal = () => {
+        setShowCheckoutModal(!showCheckoutModal);
+      };
+
     // isCartOpen is the state, setIsCartOpen() function to update state, intial state set to false
     const [showCartModal, setShowCartModal] = useState(false);
     const [cartItems, setCartItems] = useState([]);
@@ -144,6 +151,9 @@ function App() {
                 }
             }
         };
+        const removeFromCart = (itemId) => {
+            setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+          };
         const addToCart = (game) => {
             // Need to see if the game is already in cart,
             // console.log(game)
@@ -165,6 +175,8 @@ function App() {
             }
             
         };
+        // Function to remove an item from the cart
+
     return (
         <div className={styles.app}>
         <header className={styles.header}>
@@ -180,20 +192,19 @@ function App() {
                     {isSignedIn ? (
                         <>
                             <span>Welcome, {signedInUser.username}!</span>
-                            <button>Cart</button>
+                            
                             <button onClick={() => { setIsSignedIn(false); setSignedInUser(null); setEmail(""); setUsername(""); setPassword(""); }}>Sign Out</button>
-                            {/* Add the cart open button here */}
+                            
                             <button onClick={toggleCartModal}>Open Cart</button>
-                            {showCartModal && <CartModal showCartModal={showCartModal} setShowCartModal={setShowCartModal} cartItems={cartItems}/>}
+                            {showCartModal && <CartModal showCartModal={showCartModal} setShowCartModal={setShowCartModal} cartItems={cartItems} removeFromCart={removeFromCart}/>}
                         
                         </>
                     ) : (
                         <>
                             <button onClick={toggleModal}>Sign In</button>
-                            <button>Cart</button>
-                            {/* Add the cart open button here */}
+                            
                             <button onClick={toggleCartModal}>Open Cart</button>
-                            {showCartModal && <CartModal showCartModal={showCartModal} setShowCartModal={setShowCartModal} cartItems={cartItems}/>}
+                            {showCartModal && <CartModal showCartModal={showCartModal} setShowCartModal={setShowCartModal} cartItems={cartItems} toggleCheckoutModal={toggleCheckoutModal}/>}
                         </>
                     )}
                 </div>
@@ -250,13 +261,20 @@ function App() {
                         
             {/* Pass cartItems and toggleCartModal function as props to CartModal */}
 
-            <CartModal cartItems={cartItems} showCartModal={showCartModal} setShowCartModal={toggleCartModal} addToCart={addToCart}/>
+            <CartModal cartItems={cartItems} showCartModal={showCartModal} setShowCartModal={toggleCartModal} addToCart={addToCart} removeFromCart={removeFromCart} toggleCheckoutModal={toggleCheckoutModal}/>
             
             
             <GameDetailsModal 
                     game={selectedGame} 
                     onClose={closeGameDetails} 
                 />
+                {showCheckoutModal && (
+  <CheckoutModal
+    showCheckoutModal={showCheckoutModal}
+    setShowCheckoutModal={setShowCheckoutModal}
+    cartItems={cartItems}
+  />
+)}
             <AuthModal
                 showModal={showModal}
                 setShowModal={setShowModal}
